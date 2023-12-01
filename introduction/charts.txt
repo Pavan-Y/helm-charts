@@ -1,0 +1,62 @@
+we'll mostly do chart templating..
+
+some of the things like image,replicas will not be hardcoded in yml rather templated
+
+        {{ .Values.replicaCount }}
+        {{ .Values.image.repository }}
+
+and values.yml file:
+    replicaCount: 1
+    image:
+        repository: nginx
+#we'll make changes in this file to build necessary app
+
+every charts also have chart.yml[info about the chart itself]
+    sample chart.yml
+        apiVersion: v2      #v1 for helm2
+        appVersion: "1.16.0"    #version of our app
+        version: 12.1.27        #chart version, mandatory. helps keep tracking changes to chart
+        name: hello-world
+        description: a web app
+        type: application   #can set application[default]/library
+
+#in helm2 this type,dependencies section is not there so for differentiation of charts from 2 to 3
+#they added apiVersion (if  still want to use helm 2 can keep v1 for helm2)
+
+
+
+
+#Helm Chart structure
+    every chart follows this
+    - templates     #directory for templates
+    - values.yml    #configurable values
+    - Chart.yml     #chart info
+    - LICENSE   #chart license
+    - README.md   #readme
+    - charts      #dependency charts
+
+
+
+
+
+
+
+
+Customizing chart:
+    -> helm install --set wordpressBlogName="Helm Tutorials" my-site bitnami/wordpress 
+    #--sets that in values.yml, it's a line which will be printed on website
+    #can keep multiple --set <> --set <>
+    #if many keep them in a file(values.yml) keep values in it
+        [values.yml]
+            wordpressBlogName: Helm Tutorials
+            wordpressEmail: John@example.com
+
+    #if really want to change the actual values.yml instead of cmd line or custom yml
+    -> helm pull bitnami/wordpress   #pulls in archived form
+    -> helm pull --untar bitnami/wordpress  #pulls in unarchived form, wordpress folder created and all req files in it.
+
+    edit values.yml
+
+    -> helm install my-site ./wordpress  #now specify location of folder instead of chart_name
+
+    

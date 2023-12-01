@@ -1,0 +1,23 @@
+Components in helm:
+
+    cli -> to perform actions(installation of charts,.........)
+    charts -> collection of files (all instrutions helm needs to create req. objects)
+    release - single installation of an app using helm chart [when chart is applied, release is created]
+    revision - multiple revisions per release (like versioning also referred as snapshots of app)
+
+helm saves metadata(releases installed, charts used, revision state) as k8s secrets. [survives as long as k8s cluster survives]
+
+various charts available in helm repo(public) of various apps. can download and deploy
+
+
+
+-> helm install release_name chart_name
+
+ex: helm install my-site bitnami/wordpress
+
+#release name is required coz we can install multiple releases based on same chart
+    helm install my-second-site bitnami/wordpress
+
+
+different repositories available for helm charts(appscode, truecharts, bitnami, community operators)
+#all these listed their charts in a single location Artifact hub(artifacthub.io)

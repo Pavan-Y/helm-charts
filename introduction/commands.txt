@@ -1,0 +1,19 @@
+-> helm --help         #when u r stuck
+
+-> helm repo --help     #evern with subcommands
+
+-> helm search <hub/repo> wordpress  #hub searches in artifacthub.io, repo
+
+
+-> helm repo add bitnami https://charts.bitnami.com/bitnami  #add, so u can use that name instead of complete url
+-> helm install my-website bitnami/wordpress
+
+-> helm list        #lists all releases we did
+
+-> helm uninstall my-website  #to uninstall release
+
+
+#repo
+-> helm repo list   #lists existing repos
+-> helm repo update #Like apt update(gets some info from repos)
+-> 
