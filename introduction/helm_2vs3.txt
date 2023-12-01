@@ -1,0 +1,27 @@
+Significant changes in 3 compared to 2
+
+1.0     Feb 2016
+2.0     Nov 2016 
+3.0     Nov 2019
+
+helm 2.0:
+    tiller a software acted as middle man bw heml cli and k8s 
+    -> this is used as there's no role based access control, custom resource defintions..
+
+heml 3.0:
+    -> they're added in k8s and this tiller was removed[helm 3.0]
+    -> helm is directly contacting k8s.
+    -> this improved RBAC security[user created in k8s, same rules whatever tool they use[can be helm or something]]
+    -> '3 way strategic merge patch' added here
+
+#ex. to understand 3 way strategic merge patch
+install (rev1), upgrade(rev2)
+    -> we can easily go back to old revisions
+    but what if we made some changes to object manually(either applying by changes in yml, or editing object directly)
+    helm has no idea about these changes. if we try to rollback it checks revision and feels no changes as there's 
+    only 1 revision         (there'll be 2 if we did helm upgrade)
+
+so in helm3 this was taken care.
+    -> checks the current revision , the chart we want to revert to, live state of objects  [ 3 way]
+    -> so this will preserve even those manual changes
+    -> even in upgrade also helm2 will not pickup manual changes(just takes up from previous revision)
