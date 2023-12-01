@@ -1,0 +1,31 @@
+we're happy with k8s orchestration, why helm is required here????????
+
+
+-> An application is usually made of many micro services[may be no of objects in k8s environment]
+It's tough to maintain all of these along with other components such as databases,cache stores..
+(Have to carry no. of yml files, for any modification.. have to find that particualr yml and make changes then apply. )
+[we can write all object declarations in a single yml file and apply but even searching in that for required will be tricky..]
+
+
+The main issue here is k8s consider all of them as a individual objects and ensures all exist in the cluster
+It is not aware that all of them are part of a app which we're maintaining
+
+HELM:
+-> this solves that issue. Can be referred as a Package Manager for K8S
+No need to micro manage each and every object anymore.....
+we'll command to make changes in a package.. it'll makes that necessary changes to objects in that package.
+    (ex: this is like installer of your favorite game[may be pubg])
+    in the backend it makes sure required things are in place and we'll just do next... next... INSTALL.
+
+let's see a example how simple it'll be with helm
+
+    #Running a wordpress site
+    -> helm install wordpress   #that's it helm adds necessary objects
+    #for any customization, we can use values.yml[file where we can declare custom settings]
+
+    -> helm upgrade wordpress   #it knows what objects needs to be changed
+
+    -> helm rollback wordpress    #previous state[revisions]
+
+    -> helm uninstall wordpress    #all objects of the app removed
+
