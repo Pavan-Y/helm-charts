@@ -1,0 +1,12 @@
+#Life Cycle Management:
+
+    -> helm install nginx-release bitnami/nginx --version 7.1.0        #this way we can install old versions of charts
+
+    -> helm upgrade nginx-release bitnami/nginx         #old pod destoyed,creates new one with REVISION(2)
+
+    -> helm history nginx-release       #helpful, revisions and chart,app version used 
+
+    -> helm rollback nginx-release 1    #can keep revision no and rollback to it(revision will be 3 but it's same as 1)
+
+    #if using persistent vols may be database. rollback will go back to old version but data will not go back to previous state
+    #we can take backups of db before upgrade,rollback using chart hooks.
