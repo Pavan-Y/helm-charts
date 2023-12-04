@@ -1,0 +1,35 @@
+
+-> helm create nginx-chart #for creating file structure.
+
+-> rm -r templates/*       #unnecessary
+
+#issue with our nginx-chart     if we install it as release-1 and we install with another as release-2
+#ERROR - as our deployment metadata name is statically defined, so it already exists ERROR.
+
+so metadata name should be dynamic  =>  {{ .Release.Name }}-nginx
+
+#we can access other as well...
+-> Release.Name     Release.Namespace      Release.IsUpgrade      Release.IsInstall     Release.Revision      Release.Service
+
+#same way we can refer other attributes such as
+Chart.Name      Chart.ApiVersion    Values.replicaCount     Values.image
+#even details of k8s cluster
+Capabilities.KubeVersion    Capabilities.HelmVersion    Capabilities.GitCommit
+
+#As we can see expect Values.attributes every other starting with Capital letter(coz they're In-Built.)
+
+
+
+## Verifyig charts
+
+    1. Linting(format check)
+        -> helm lint ./nginx-chart
+        # 1 chart(s) linted, 0 chart(s) failed
+    2. Verify Template (making sure proper values is placed)
+        -> helm template hello-world ./nginx-chart      #here hello-world is release name
+        # prints all yml files check them..
+        #--debug for verbose
+    3. Dry run
+        #let's say we writtern container instead of containers in deployment
+        #this will not be covered in lint/template check as this k8s format, so dry run helps here..
+        -> helm install hello-world ./nginx-chart --dry-run
