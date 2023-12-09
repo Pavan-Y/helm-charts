@@ -1,0 +1,10 @@
+just like how we'll do piping in linux world with pipe operator, we can do in helm
+
+for ex:     echo "abcd" | tr a-z A-z
+            ABCD
+
+Here this can help us in making use of many functions..
+for ex:
+    {{ upper .Values.image.repository }}   ==  {{ .Values.image.repository | upper }}
+
+    => now we can apply multiple with pipe  {{ .Values.image.repository | upper | quote | shuffle }}        => op: NIG"XN"
