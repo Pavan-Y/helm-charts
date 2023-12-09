@@ -1,0 +1,40 @@
+FUNCTIONS:
+=========
+
+like in any other prog. language, here we have some functions.. they intend to do a particular action.
+
+diff functions available ->  
+    Cryptographic and Security
+    Date
+    Dictionaries
+    File Path
+    Kubernetes
+    Chart
+    Lists
+    Logic and flow
+    Math
+    Network
+    Reflection
+    Regex
+    string
+    Type Conversion
+    URL
+
+docs -> https://helm.sh/docs/chart_template_guide/function_list/
+
+string functions ex:
+    {{ upper .Values.image.repository }}            (nginx values.yml) => op: NGINX
+
+    {{ quote .Values.image.repository }}            (nginx values.yml) => op: "nginx"
+
+    {{ replace "x" "y" .Values.image.repository }}  (nginx values.yml) => op: "nginy"
+
+    like this many string functions (abbrev, abbrevboth, camelcase, )
+
+    {{ .Values.image.repository | camelcase }}      (my_nginx in values.yml) => op: MyNginx
+
+
+default -> a function to depict default value if mentioned value is not available.
+(tag: ""   => this also considered as unavailable.. it is not a empty string.. it's more like None)
+
+    {{ default "nginx" .Values.image.repository }}          #nginx picked if Values.image.repository is not specified
