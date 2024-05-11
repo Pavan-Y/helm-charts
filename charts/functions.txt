@@ -37,4 +37,4 @@ string functions ex:
 default -> a function to depict default value if mentioned value is not available.
 (tag: ""   => this also considered as unavailable.. it is not a empty string.. it's more like None)
 
-    {{ default "nginx" .Values.image.repository }}          #nginx picked if Values.image.repository is not specified
+    {{ default "nginx" .Values.image.repository }}          #nginx will be picked if Values.image.repository is not specified

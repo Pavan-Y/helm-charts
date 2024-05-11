@@ -1,0 +1,72 @@
+
+[service.yml]
+apiVersion: v1
+kind: Service
+metadata:
+    name: {{ .Release.Name }}-nginx
+    {{ if .Values.orgLabel }}   #this will appear as a blank line in final manifest
+    labels:
+        org: {{ .Values.orgLabel }}
+    {{- else if eq .Values.orgLabel "hr" }} #no blank line in final as - added.
+    labels:
+        org: human resources
+    {{ end }}    #this will appear as a blank line in final manifest
+    #labels will not be set in final manifest if values.orgLabel is not passed in values
+spec:
+    ports:
+      - port: 80
+        name: http
+    selector:
+      app: hello-world
+    
+[values.yml]
+image: nginx
+orgLabel: payroll
+
+
+-> if you don't want those empty(blank) lines add - like below
+{{- if .Values.orgLabel }}
+----------------------------------------------------------------------------------
+
+-> This is not just limited to lines in a file but you can also stop creation of objects
+
+[serviceaccount.yml]
+{{- if .Values.serviceAccount.create }}
+apiVersion: v1
+kind: serviceAccount
+metadata:
+    name: {{ .Release.Name }}-sa
+{{- else }}
+
+[values.yml]
+serviceAccount:
+    create: true
+
+
+ex:
+[serviceaccount.yml]
+{{- with .Values.serviceAccount.create }}
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: {{ $.Values.serviceAccount.name }}
+  labels:
+    {{- range $key, $val := $.Values.serviceAccount.labels }}
+    {{ $key }}: {{ $val }}
+    {{- end }}
+    app: webapp-color
+{{- end }}
+
+[values.yml]
+serviceAccount:
+  # Specifies whether a service account should be created
+  create: true
+  # Annotations to add to the service account
+  annotations: {}
+  # The name of the service account to use.
+  # If not set and create is true, a name is generated using the fullname template
+  name: webapp-sa
+  labels: 
+    tier: frontend #all these 3 will be added as it is due to range loop
+    type: web
+    mode: prox

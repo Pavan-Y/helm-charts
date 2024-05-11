@@ -1,0 +1,50 @@
+.Release and .Values are examples of root scope.
+
+-> means, we can refer any values associated with those by following it (.Values.<key>.<key2>.....)
+but if we have a values file like below
+[values.yml]
+app:
+  ui:
+    bg: red
+    fg: blue
+  db:
+    name: "mydb"
+    conn: "postgresql://localhost:5432"
+
+here, the values are not that many but there are many.. it's not that good to access every variable from root scope
+
+-> So here comes the "scope".
+we can define this using with block to define some other scope and can end it after use.
+ex:[without scope use]
+[configmap.yml]
+apiVersion: v1
+kind: ConfigMap
+metadata:
+    name: {{ .Release.Name }}-info
+data:
+    background: {{ .Values.app.ui.bg }}
+    foreground: {{ .Values.app.ui.fg }}
+    database: {{ .Values.app.db.name }}
+    connection: {{ .Values.app.db.conn }}
+
+#using scope
+[configmap.yml]
+apiVersion: v1
+kind: ConfigMap
+metadata:
+    name:   {{ .Release.Name }}-info
+data:
+    {{- with .Values.app }} #scope is now app
+        {{- with .ui}} #now it's ui
+        background: {{ .bg }} #so direct access to variables under ui
+        foreground: {{ .fg }}
+        {{- end }}
+        {{- with .db }}
+        database: {{ .name }}  #direct access to variables under db
+        connection: {{ .conn }}
+        {{- end }}
+        #shouldn't be accessing the root scope values under with  block directly as it 
+        #will be checking for them under defined scope
+        #use $ before accessing root scope like below
+    release: {{ $.Release.Name }}
+    {{- end}}
